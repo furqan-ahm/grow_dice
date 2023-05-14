@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:upgame/game/actors/playerController.dart';
 import 'package:upgame/game/mainGame.dart';
 
 import '../actors/platform.dart';
-import '../actors/player.dart';
+import '../actors/playerDice.dart';
 
 class MapLevel extends Component with HasGameRef<MainGame>{
 
@@ -32,7 +33,7 @@ class MapLevel extends Component with HasGameRef<MainGame>{
 
     for(final spawn in spawnLayer!.objects){
       if(spawn.class_=='player'){
-        game.add(Player(position: Vector2(spawn.x/10,spawn.y/10), size: Vector2(spawn.width/10, spawn.height/10)));
+        game.initPlayerController(PlayerController(initialPos: Vector2(spawn.x/10,spawn.y/10), size: Vector2(spawn.width/10, spawn.height/10)));
       }
     }
 

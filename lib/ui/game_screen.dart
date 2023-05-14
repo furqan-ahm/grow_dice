@@ -9,6 +9,8 @@ const GameScreen({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
-    return GameWidget(game: GameController.game);
+    return RotatedBox(
+      quarterTurns: 0,
+      child: GameWidget(game: GameController.game));
   }
 }

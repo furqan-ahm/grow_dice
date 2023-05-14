@@ -7,11 +7,16 @@ import 'package:upgame/game/actors/platform.dart';
 
 import '../mainGame.dart';
 
-class Player extends BodyComponent<MainGame> with ContactCallbacks {
-  Player({
+class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
+  PlayerDie({
     required this.position,
     required this.size,
+    this.isMainBody=false
   });
+
+
+
+  int index=0;
 
   Vector2 position;
   Vector2 size;
@@ -25,6 +30,8 @@ class Player extends BodyComponent<MainGame> with ContactCallbacks {
   bool get grounded => inContact.isNotEmpty;
 
 
+
+  bool isMainBody;
   
   late double initialPosY;
 
@@ -35,7 +42,7 @@ class Player extends BodyComponent<MainGame> with ContactCallbacks {
   List<Object> inContact = [];
 
 
-
+  bool removedFromList = false;
 
 
   @override
@@ -61,18 +68,19 @@ class Player extends BodyComponent<MainGame> with ContactCallbacks {
 
   @override
   Future<void> onLoad() async {
+    index= game.playerController.dice.indexOf(this);
     initialPosY = position.y;
      
     SpriteComponent sprite = SpriteComponent()
       ..size = size
-      ..sprite = await game.loadSprite('dice1.png')
+      ..sprite = game.diceSprite.getSprite(0, index.clamp(0, 5))
       ..anchor = Anchor.center;
     add(sprite);
 
     //sync.Timer.periodic(const Duration(milliseconds: 200), (timer) {generateParticle();});
 
     await super.onLoad();
-    //game.camera.followVector2();
+    body.linearVelocity=Vector2(5, 0);
   }
 
 
@@ -80,14 +88,16 @@ class Player extends BodyComponent<MainGame> with ContactCallbacks {
   @override
   void update(double dt) {
     
-    
-    if (moveLeft) {
-      body.linearVelocity = Vector2(-6, body.linearVelocity.y);
+    if(isMainBody&&!removedFromList){
+      game.camera.followVector2(Vector2(body.position.x, game.map.mapSize.y/2));
     }
 
-    if (moveRight) {
-      body.linearVelocity = Vector2(6, body.linearVelocity.y);
+
+    if(body.linearVelocity.x==0){
+      isMainBody=false;
+      game.playerController.dice.remove(this);
     }
+
     super.update(dt);
   }
 
@@ -128,7 +138,7 @@ class Player extends BodyComponent<MainGame> with ContactCallbacks {
       ..fixedRotation = true;
     FixtureDef fixtureDef = FixtureDef(
       shape,
-      friction: 0.3,
+      friction: 0,
       density: 1,
       restitution: 0,
     );
