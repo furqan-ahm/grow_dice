@@ -8,9 +8,11 @@ class GameController extends GetxController{
 
   Game game=MainGame();
 
+  RxBool sound=true.obs;
 
-
-
+  startGame(){
+    
+  }
 
 
 }

@@ -3,13 +3,10 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-import 'package:upgame/game/actors/playerController.dart';
 import 'package:upgame/game/mainGame.dart';
 import 'package:upgame/game/maps/bgSlice.dart';
 import 'package:upgame/game/maps/mapSlice.dart';
 
-import '../actors/platform.dart';
-import '../actors/playerDice.dart';
 
 class MapGenerator extends Component with HasGameRef<MainGame> {
   late Vector2 mapSize;
@@ -30,7 +27,7 @@ class MapGenerator extends Component with HasGameRef<MainGame> {
     final initial = rand.nextInt(4) + 1;
 
     TiledComponent map = await TiledComponent.load(
-      'map${initial}.tmx',
+      'map$initial.tmx',
       Vector2.all(32) / 10,
       priority: 20,
     );
