@@ -12,7 +12,7 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
     required this.position,
     required this.size,
     this.isMainBody=false
-  });
+  }):super(priority: 2);
 
 
 

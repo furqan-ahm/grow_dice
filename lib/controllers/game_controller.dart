@@ -1,11 +1,15 @@
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:upgame/game/mainGame.dart';
 
-class GameController extends ChangeNotifier{
+class GameController extends GetxController{
 
 
-  static Game game=MainGame();
+  Game game=MainGame();
+
+
+
 
 
 

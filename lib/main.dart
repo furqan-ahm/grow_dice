@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:upgame/bindings.dart';
 import 'package:upgame/ui/game_screen.dart';
 
 void main() {
@@ -11,8 +13,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
+      initialBinding: GameBindings(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
