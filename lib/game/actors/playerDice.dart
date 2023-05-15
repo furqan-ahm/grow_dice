@@ -78,7 +78,7 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
     add(sprite);
 
     await super.onLoad();
-    body.linearVelocity=Vector2(5, 0);
+    body.linearVelocity=Vector2(10, 0);
   }
 
 

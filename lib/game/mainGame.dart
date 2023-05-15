@@ -6,13 +6,13 @@ import 'package:flame/input.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:upgame/game/actors/playerController.dart';
-import 'package:upgame/game/maps/map.dart';
+import 'package:upgame/game/maps/mapGenerator.dart';
 import 'package:upgame/game/utils/rayCastCallBack.dart';
 
 class MainGame extends Forge2DGame with HasTappables{
 
 
-  late MapLevel map;
+  late MapGenerator map;
 
   late PlayerController playerController;
   late SpriteSheet diceSprite;
@@ -22,7 +22,7 @@ class MainGame extends Forge2DGame with HasTappables{
   @override
   FutureOr<void> onLoad() async {
     diceSprite=SpriteSheet(image: await images.load('diceSpriteSheet.png'), srcSize: Vector2(32, 32));
-    map =MapLevel();
+    map =MapGenerator();
     await add(map);
 
     camera.zoom=canvasSize.y/map.mapSize.y;
