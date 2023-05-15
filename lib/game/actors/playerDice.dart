@@ -35,11 +35,11 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
   
   late double initialPosY;
 
-  late Image blueParticleImage;
-
-  late Image blackParticleImage;
-
+  
+  late SpriteComponent sprite;
+  
   List<Object> inContact = [];
+
 
 
   bool removedFromList = false;
@@ -71,13 +71,11 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
     index= game.playerController.dice.indexOf(this);
     initialPosY = position.y;
      
-    SpriteComponent sprite = SpriteComponent()
+    sprite = SpriteComponent()
       ..size = size
       ..sprite = game.diceSprite.getSprite(0, index.clamp(0, 5))
       ..anchor = Anchor.center;
     add(sprite);
-
-    //sync.Timer.periodic(const Duration(milliseconds: 200), (timer) {generateParticle();});
 
     await super.onLoad();
     body.linearVelocity=Vector2(5, 0);
@@ -88,12 +86,21 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
   @override
   void update(double dt) {
     
+
+    if(!removedFromList){
+      final tempIndex= game.playerController.dice.indexOf(this);
+      if(index!=tempIndex){
+        index=tempIndex;
+        sprite.sprite=game.diceSprite.getSprite(0, index.clamp(0, 5));
+      }
+    }
+
     if(isMainBody&&!removedFromList){
       game.camera.followVector2(Vector2(body.position.x, game.map.mapSize.y/2));
     }
 
 
-    if(body.linearVelocity.x==0){
+    if(body.linearVelocity.x==0||body.position.y>game.map.mapSize.y){
       isMainBody=false;
       game.playerController.dice.remove(this);
     }
@@ -101,32 +108,6 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
     super.update(dt);
   }
 
-  generateParticle() {
-    final particleSys = ParticleSystemComponent(
-        priority: -2,
-        particle: flame.Particle.generate(
-          lifespan: 2,
-          count: 4,
-          generator: (i) {
-            final particleVelocity = Vector2((Random().nextDouble() - 0.5) * 3,
-                (Random().nextDouble() - 0.5) * -3);
-            final particleSize =
-                (Vector2.all(size.x)) / 2 * Random().nextDouble();
-            final image = Random().nextInt(10) < 5
-                ? blueParticleImage
-                : blackParticleImage;
-            return flame.AcceleratedParticle(
-                lifespan: 2,
-                acceleration: particleVelocity,
-                child: flame.ImageParticle(
-                  image: image,
-                  size: particleSize,
-                  lifespan: 200,
-                ));
-          },
-        ));
-    add(particleSys);
-  }
 
   @override
   Body createBody() {

@@ -25,7 +25,7 @@ class PlayerController extends Component with HasGameRef<MainGame> {
     
     
     final die = PlayerDie(position: initialPos, size: size, isMainBody: true);
-    dice.add(die);
+    dice.insert(0,die);
     game.add(die);
     return super.onLoad();
   }
@@ -34,13 +34,13 @@ class PlayerController extends Component with HasGameRef<MainGame> {
 
   addDice()async{
 
-    final bool canAdd=game.rayCast(dice.last.body.position);
+    final bool canAdd=game.rayCast(dice.first.body.position);
 
     if(!canAdd)return;
-    dice.last.isMainBody=false;
-    final die = PlayerDie(position: Vector2(dice.last.body.position.x-size.x/2, dice.last.body.position.y-size.y), size: size, isMainBody: true);
-    dice.add(die);
-    add(die);
+    dice.first.isMainBody=false;
+    final die = PlayerDie(position: Vector2(dice.first.body.position.x-size.x/2, dice.first.body.position.y-size.y), size: size, isMainBody: true);
+    dice.insert(0,die);
+    game.add(die);
   }
 
 
