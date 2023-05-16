@@ -41,12 +41,13 @@ class MapGenerator extends Component with HasGameRef<MainGame> {
     bgSize=Vector2(map.scaledSize.y*720/1280, map.scaledSize.y);
 
 
-    final bg=BGSlice(image:await game.images.load('bg.png'), position: Vector2(-bgSize.x, 0), size: bgSize);
-    bgSlices.add(bg);
-    final bg2=BGSlice(image:await game.images.load('bg.png'), position: Vector2(0, 0), size: bgSize);
-    bgSlices.add(bg2);
-    game.add(bg);
-    game.add(bg2);
+
+
+    for(int i =0;i<6;i++){
+      final bg=BGSlice(image:await game.images.load('bg.png'), position: Vector2(-bgSize.x + i*bgSize.x, 0), size: bgSize);
+      bgSlices.add(bg);
+      game.add(bg);     
+    }
 
 
     return super.onLoad();

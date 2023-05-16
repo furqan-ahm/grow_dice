@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:upgame/controllers/game_controller.dart';
+import 'package:upgame/ui/menu_screen.dart';
 import 'package:upgame/ui/widgets/img_button.dart';
 import 'package:upgame/ui/widgets/sound_button.dart';
 
-class GameOverScreen extends StatelessWidget {
+class GameOverScreen extends GetView<GameController> {
   const GameOverScreen({Key? key}) : super(key: key);
 
   @override
@@ -36,7 +39,7 @@ class GameOverScreen extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.yellow,
                     fontSize: 34,
-                    shadows: const [
+                    shadows: [
                       Shadow(
                           color: Color(0xffFCFB08),
                           offset: Offset(0, 1),
@@ -46,12 +49,16 @@ class GameOverScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                '24',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 64,
-                ),
+              Obx(
+               () {
+                  return Text(
+                    '${controller.liveScore}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 64,
+                    ),
+                  );
+                }
               ),
               const SizedBox(
                 height: 45,
@@ -62,7 +69,7 @@ class GameOverScreen extends StatelessWidget {
                 child: ImgButton(
                     image: 'assets/images/buttons/menu_btn.png',
                     pressedImage: 'assets/images/buttons/menu-1_btn.png',
-                    onPressed: () {}),
+                    onPressed: () {Get.offAll(const MenuScreen());}),
               ),
               const SizedBox(
                 height: 45,
@@ -73,7 +80,7 @@ class GameOverScreen extends StatelessWidget {
                 child: ImgButton(
                     image: 'assets/images/buttons/restart_btn.png',
                     pressedImage: 'assets/images/buttons/restart-1_btn.png',
-                    onPressed: () {}),
+                    onPressed: () {Get.back();controller.startGame();}),
               ),
             ],
           ),

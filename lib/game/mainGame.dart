@@ -5,9 +5,12 @@ import 'package:flame/geometry.dart';
 import 'package:flame/input.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:get/get.dart';
 import 'package:upgame/game/actors/playerController.dart';
 import 'package:upgame/game/maps/mapGenerator.dart';
 import 'package:upgame/game/utils/rayCastCallBack.dart';
+
+import '../controllers/game_controller.dart';
 
 class MainGame extends Forge2DGame with HasTappables{
 
@@ -18,6 +21,7 @@ class MainGame extends Forge2DGame with HasTappables{
   late SpriteSheet diceSprite;
 
 
+  GameController get controller=>Get.find<GameController>();
 
   @override
   FutureOr<void> onLoad() async {

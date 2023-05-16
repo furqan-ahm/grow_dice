@@ -11,12 +11,18 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
   PlayerDie({
     required this.position,
     required this.size,
-    this.isMainBody=false
+    this.isMainBody=false,
+    this.initialSpeed=10
   }):super(priority: 2);
 
 
 
   int index=0;
+
+
+
+
+  double initialSpeed;
 
   Vector2 position;
   Vector2 size;
@@ -36,6 +42,8 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
   late double initialPosY;
 
   
+  double acceleration=0.3;
+
   late SpriteComponent sprite;
   
   List<Object> inContact = [];
@@ -78,15 +86,14 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
     add(sprite);
 
     await super.onLoad();
-    body.linearVelocity=Vector2(10, 0);
+    body.linearVelocity=Vector2(initialSpeed, 0);
   }
 
 
   
   @override
   void update(double dt) {
-    
-
+     
     if(!removedFromList){
       final tempIndex= game.playerController.dice.indexOf(this);
       if(index!=tempIndex){
@@ -101,9 +108,15 @@ class PlayerDie extends BodyComponent<MainGame> with ContactCallbacks {
 
 
     if(body.linearVelocity.x==0||body.position.y>game.map.mapSize.y){
-      isMainBody=false;
       game.playerController.dice.remove(this);
+      if(isMainBody){
+        isMainBody=false;
+        game.controller.gameOver();
+      }
     }
+
+
+    body.linearVelocity=Vector2(body.linearVelocity.x+dt*acceleration, body.linearVelocity.y);
 
     super.update(dt);
   }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:upgame/bindings.dart';
-import 'package:upgame/ui/game_over_screen.dart';
-import 'package:upgame/ui/game_screen.dart';
 import 'package:upgame/ui/menu_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   runApp(const MyApp());
 }
 
@@ -16,13 +17,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Grow Dice',
       initialBinding: GameBindings(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Digital'
       ),
-      home: const GameOverScreen(),
+      home: const MenuScreen(),
     );
   }
 }

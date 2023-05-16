@@ -14,10 +14,6 @@ class PlayerController extends Component with HasGameRef<MainGame> {
   Vector2 size;
 
 
-
-  
-
-
   List<PlayerDie> dice=[];
 
   @override
@@ -37,13 +33,24 @@ class PlayerController extends Component with HasGameRef<MainGame> {
     final bool canAdd=game.rayCast(dice.first.body.position);
 
     if(!canAdd)return;
+
+
+    game.controller.playDuplicateSFX();
     dice.first.isMainBody=false;
-    final die = PlayerDie(position: Vector2(dice.first.body.position.x-size.x/2, dice.first.body.position.y-size.y), size: size, isMainBody: true);
+    final die = PlayerDie(position: Vector2(dice.first.body.position.x-size.x/2, dice.first.body.position.y-size.y), size: size, isMainBody: true, initialSpeed: dice.first.body.linearVelocity.x);
     dice.insert(0,die);
     game.add(die);
   }
 
 
+
+  @override
+  void update(double dt) {
+
+    game.controller.liveScore.value=(dice[0].body.position.x-initialPos.x)~/20;    
+    
+    super.update(dt);
+  }
 
 
 
